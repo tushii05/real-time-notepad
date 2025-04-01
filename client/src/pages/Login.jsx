@@ -71,7 +71,7 @@ const Login = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Email"
                     required
-                    style={{ width: '100%', padding: '12px', marginBottom: '10px', borderRadius: '5px', border: '1px solid #e3eaf0', fontSize: '1rem' }}
+                    style={{ width: '93%', padding: '12px', marginBottom: '10px', borderRadius: '5px', border: '1px solid #e3eaf0', fontSize: '1rem' }}
                 />
                 <input
                     type="password"
@@ -79,7 +79,7 @@ const Login = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Password"
                     required
-                    style={{ width: '100%', padding: '12px', marginBottom: '20px', borderRadius: '5px', border: '1px solid #e3eaf0', fontSize: '1rem' }}
+                    style={{ width: '93%', padding: '12px', marginBottom: '20px', borderRadius: '5px', border: '1px solid #e3eaf0', fontSize: '1rem' }}
                 />
                 <button
                     type="submit"

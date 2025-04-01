@@ -89,8 +89,6 @@ async function loginUser(username, password, req) {
     return user;
 }
 
-
-
 async function getProfile(req, res) {
     try {
         const user = await prisma.user.findUnique({
@@ -115,7 +113,6 @@ async function getProfile(req, res) {
         return res.status(500).json({ error: 'Failed to fetch profile', details: err.message });
     }
 }
-
 
 async function logout(req, res) {
     const userId = req.session.userId;

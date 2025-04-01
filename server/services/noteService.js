@@ -6,12 +6,15 @@ async function createNote(title, content, userId, theme = 'default') {
     });
 }
 
-async function getNotes(page = 1, pageSize = 10) {
+async function getNotes(page = 1, pageSize = 10, order = 'desc') {
     const skip = (page - 1) * pageSize;
 
     const notes = await prisma.note.findMany({
         skip: skip,
         take: pageSize,
+        orderBy: {
+            createdAt: order
+        },
         include: {
             user: {
                 select: {

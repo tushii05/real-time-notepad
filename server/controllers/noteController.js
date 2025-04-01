@@ -19,8 +19,9 @@ async function noteGet(req, res) {
     try {
         const page = parseInt(req.query.page) || 1;
         const pageSize = parseInt(req.query.pageSize) || 10;
+        const order = req.query.order === 'asc' ? 'asc' : 'desc';
 
-        const contents = await getNotes(page, pageSize);
+        const contents = await getNotes(page, pageSize, order);
         res.status(200).json(contents);
     } catch (error) {
         res.status(500).json({ error: error.message });

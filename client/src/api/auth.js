@@ -6,7 +6,9 @@ const api = axios.create({
     baseURL: API_URL,
     withCredentials: true,
 });
-
+// axios.defaults.headers["X-"] = 
+// axios.defaults.baseURL = 
+// axios.defaults.withCredentials = 
 
 export const signup = async (name, username, password, csrfToken) => {
     try {
@@ -82,12 +84,12 @@ export const logOut = async () => {
 };
 
 
-export const CreateNote = async (title, content, csrfToken) => {
-    console.log("object", title, content, csrfToken)
+export const CreateNote = async (title, content, theme, csrfToken) => {
     try {
         const response = await api.post('/notes', {
             title,
-            content
+            content,
+            theme
         },
             {
                 headers: { 'X-CSRF-TOKEN': csrfToken },
@@ -99,11 +101,12 @@ export const CreateNote = async (title, content, csrfToken) => {
     }
 };
 
-export const UpdateNote = async (id, title, content, csrfToken) => {
+export const UpdateNote = async (id, title, content, theme, csrfToken) => {
     try {
         const response = await api.put(`/notes/${id}`, {
             title,
-            content
+            content,
+            theme
         },
             {
                 headers: { 'X-CSRF-TOKEN': csrfToken },
