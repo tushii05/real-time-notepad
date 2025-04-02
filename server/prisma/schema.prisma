@@ -18,6 +18,7 @@ model User {
   blockedUntil DateTime?
   lastPasswords    String[]
   note  Note[]
+  avatar        String?
 }
 
 model Note {

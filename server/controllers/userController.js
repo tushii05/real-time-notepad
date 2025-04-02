@@ -7,6 +7,7 @@ const {
     updateUser,
     deleteUser,
     changePasswordService,
+    avatarUpload
 } = require('../services/useService');
 
 const register = async (req, res) => {
@@ -75,7 +76,6 @@ async function deleteUserController(req, res) {
     }
 }
 
-
 async function changePasswordController(req, res) {
     const { oldPassword, newPassword } = req.body;
     const userId = req.session.userId;
@@ -87,6 +87,24 @@ async function changePasswordController(req, res) {
     }
 }
 
+const uploadAvatar = async (req, res) => {
+    console.log(req.session,"session")
+    if (!req.session.userId) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    try {
+        if (!req.file) {
+            return res.status(400).json({ error: 'No file uploaded' });
+        }
+
+        const result = await avatarUpload(req.session.userId, req.file);
+        res.status(200).json(result);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+};
+
 module.exports = {
     register,
     login,
@@ -96,4 +114,5 @@ module.exports = {
     getUsersController,
     updateUserController,
     deleteUserController,
+    uploadAvatar
 };

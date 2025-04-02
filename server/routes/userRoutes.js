@@ -1,6 +1,7 @@
 const express = require('express');
 const { isAuthenticated } = require('../middlewares/authMiddleware')
 const router = express.Router();
+const upload = require('../middlewares/upload');
 const {
     register,
     login,
@@ -10,6 +11,7 @@ const {
     updateUserController,
     deleteUserController,
     changePasswordController,
+    uploadAvatar
 } = require('../controllers/userController');
 
 router.get('/userDetails', isAuthenticated, getController);
@@ -21,6 +23,7 @@ router.post('/login', login);
 router.put('/users', isAuthenticated, updateUserController);
 router.delete('/users/:id', isAuthenticated, deleteUserController);
 router.put('/change-password', isAuthenticated, changePasswordController);
+router.put('/avatar', upload.single('avatar'), uploadAvatar);
 
 
 module.exports = router;

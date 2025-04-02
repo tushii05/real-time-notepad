@@ -1,3 +1,6 @@
+const fs = require('fs');
+const path = require('path');
+const { promisify } = require('util');
 const { prisma } = require('../config/db');
 const { hashPassword, comparePassword } = require('../utils/passcheck');
 
@@ -97,6 +100,7 @@ async function getProfile(req, res) {
                 id: true,
                 name: true,
                 username: true,
+                avatar: true
             },
         });
 
@@ -198,6 +202,46 @@ async function changePasswordService(userId, oldPassword, newPassword) {
     return updatedUser;
 }
 
+const deleteOldAvatar = async (userId) => {
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (user.avatar) {
+        const filePath = path.join(__dirname, '../uploads', user.avatar);
+        try {
+            await promisify(fs.unlink)(filePath);
+        } catch (err) {
+            console.error('Error deleting old avatar:', err);
+        }
+    }
+};
+
+// Upload avatar function
+async function avatarUpload(userId, file) {
+    if (!file) {
+        throw new Error('No file uploaded');
+    }
+
+    await deleteOldAvatar(userId);
+
+    const fileExt = path.extname(file.originalname);
+    const fileName = `${userId}-${Date.now()}${fileExt}`;
+    const filePath = path.join(__dirname, '../uploads', fileName);
+
+    await promisify(fs.rename)(file.path, filePath);
+
+    const updatedUser = await prisma.user.update({
+        where: { id: userId },
+        data: { avatar: fileName },
+        select: {
+            id: true,
+            name: true,
+            username: true,
+            avatar: true
+        }
+    });
+
+    return updatedUser;
+}
+
 module.exports = {
     registerUser,
     getProfile,
@@ -206,5 +250,6 @@ module.exports = {
     getUsers,
     updateUser,
     changePasswordService,
-    deleteUser
+    deleteUser,
+    avatarUpload
 };

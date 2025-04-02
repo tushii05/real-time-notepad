@@ -83,6 +83,21 @@ export const logOut = async () => {
     }
 };
 
+export const uploadAvatar = async (formData, csrfToken) => {
+    console.log(formData,"```````````````````````````")
+    try {
+        const response = await api.put('/avatar', formData, {
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'Content-Type': 'multipart/form-data'
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Avatar upload failed', error.response?.data);
+        throw error;
+    }
+};
 
 export const CreateNote = async (title, content, theme, csrfToken) => {
     try {
