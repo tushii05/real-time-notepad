@@ -40,13 +40,13 @@ app.use(helmet({
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// const limiter = rateLimit({
-//     windowMs: 15 * 60 * 1000,
-//     max: 100,
-//     message: 'Too many requests from this IP, please try again later.',
-// 	// keyGenerator: (req, res) => req.session.id,
-// });
-// app.use(limiter);
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+    message: 'Too many requests from this IP, please try again later.',
+    keyGenerator: (req, res) => req.ip,
+});
+app.use(limiter);
 
 app.use(express.json());
 app.use(cookieParser());

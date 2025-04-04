@@ -88,7 +88,6 @@ async function changePasswordController(req, res) {
 }
 
 const uploadAvatar = async (req, res) => {
-    console.log(req.session,"session")
     if (!req.session.userId) {
         return res.status(401).json({ error: 'Unauthorized' });
     }

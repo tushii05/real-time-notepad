@@ -214,7 +214,6 @@ const deleteOldAvatar = async (userId) => {
     }
 };
 
-// Upload avatar function
 async function avatarUpload(userId, file) {
     if (!file) {
         throw new Error('No file uploaded');
