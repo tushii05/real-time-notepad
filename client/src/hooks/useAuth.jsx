@@ -1,29 +1,14 @@
-import { useState, useEffect } from 'react';
-import { fetchUser } from '../api/auth';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { checkAuth } from '../features/auth/authSlice';
 
 const useAuth = () => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [loading, setLoading] = useState(true);
+    const dispatch = useDispatch();
+    const { isAuthenticated, loading } = useSelector((state) => state.auth);
 
     useEffect(() => {
-        const checkAuthentication = async () => {
-            try {
-                const res = await fetchUser();
-                if (res) {
-                    setIsAuthenticated(true);
-                } else {
-                    setIsAuthenticated(false);
-                }
-            } catch (error) {
-                console.log("Authentication check failed:", error);
-                setIsAuthenticated(false);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        checkAuthentication();
-    }, []);
+        dispatch(checkAuth());
+    }, [dispatch]);
 
     return { isAuthenticated, loading };
 };

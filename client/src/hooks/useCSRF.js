@@ -1,15 +1,14 @@
-import { useEffect, useState } from 'react';
-import { fetchCrf } from '../api/auth';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getCSRFToken } from '../features/csrf/csrfSlice';
 
 export function useCSRF() {
-    const [csrfToken, setCsrfToken] = useState('');
+  const dispatch = useDispatch();
+  const { token: csrfToken } = useSelector((state) => state.csrf);
 
-    useEffect(() => {
-        const getCSRFToken = async () => {
-            const token = await fetchCrf();
-            setCsrfToken(token.csrfToken);
-        };
-        getCSRFToken()
-    }, []);
-    return csrfToken;
+  useEffect(() => {
+    dispatch(getCSRFToken());
+  }, [dispatch]);
+
+  return csrfToken;
 }

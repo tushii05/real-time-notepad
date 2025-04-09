@@ -9,6 +9,8 @@ import AppLayout from './layouts/AppLayOut';
 import { Toaster } from 'react-hot-toast';
 import ProfilePage from './pages/ProfilePage';
 import Dashboard from './components/dashboard';
+import { Provider } from 'react-redux';
+import { store } from './app/store';
 
 
 const router = createBrowserRouter([
@@ -52,10 +54,10 @@ const router = createBrowserRouter([
 
 const App = () => {
   return (
-    <>
+    <Provider store={store}>
       <RouterProvider router={router} />
       <Toaster />
-    </>
+    </Provider>
   );
 };
 
