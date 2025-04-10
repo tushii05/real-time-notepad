@@ -12,7 +12,7 @@ const api = axios.create({
 
 export const signup = async (name, username, password, csrfToken) => {
     try {
-        const response = await api.post('/register', {
+        const response = await api.post('/users/register', {
             name,
             username,
             password
@@ -29,7 +29,7 @@ export const signup = async (name, username, password, csrfToken) => {
 
 export const login = async (email, password, csrfToken) => {
     try {
-        const response = await api.post('/login', {
+        const response = await api.post('/users/login', {
             username: email,
             password
         },
@@ -45,7 +45,7 @@ export const login = async (email, password, csrfToken) => {
 
 export const fetchUser = async () => {
     try {
-        const response = await axios.get(`${API_URL}/userDetails`, { withCredentials: true });
+        const response = await axios.get(`${API_URL}/users/userDetails`, { withCredentials: true });
         return response.data;
     } catch (error) {
         console.error('Failed to fetch user data', error.response?.data);
@@ -69,7 +69,7 @@ export const fetchCrf = async () => {
 export const logOut = async () => {
     try {
         const csrfToken = await fetchCrf();
-        const response = await axios.post(`${API_URL}/logout`, {}, {
+        const response = await axios.post(`${API_URL}/users/logout`, {}, {
             headers: {
                 "X-CSRF-Token": csrfToken.csrfToken
             },
@@ -86,7 +86,7 @@ export const logOut = async () => {
 export const uploadAvatar = async (formData, csrfToken) => {
     console.log(formData,"```````````````````````````")
     try {
-        const response = await api.put('/avatar', formData, {
+        const response = await api.put('/users/avatar', formData, {
             headers: {
                 'X-CSRF-TOKEN': csrfToken,
                 'Content-Type': 'multipart/form-data'
