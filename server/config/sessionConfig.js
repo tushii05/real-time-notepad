@@ -2,7 +2,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 
 module.exports = session({
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.JWT_SECRET_KEY,
     resave: false,
     saveUninitialized: true,
     cookie: {

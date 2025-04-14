@@ -12,6 +12,7 @@ const csrfMiddleware = require('./middlewares/csrfMiddleware');
 const userRoutes = require('./routes/userRoutes');
 const noteRoutes = require('./routes/noteRoutes');
 const csrfRoutes = require('./routes/csrfRoutes');
+const refreshTokenRoutes = require('./routes/refreshTokenRoutes')
 
 const app = express();
 
@@ -30,7 +31,7 @@ app.use(csrfMiddleware);
 app.use('/api/users', userRoutes);
 app.use('/api', noteRoutes);
 app.use('/api', csrfRoutes);
-
+app.use('/api', refreshTokenRoutes);
 app.use(errorMiddleware);
 
 module.exports = app;

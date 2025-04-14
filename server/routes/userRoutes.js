@@ -1,5 +1,5 @@
 const express = require('express');
-const { isAuthenticated } = require('../middlewares/authMiddleware')
+const { isAuthenticated, authenticateToken } = require('../middlewares/authMiddleware')
 const router = express.Router();
 const upload = require('../middlewares/upload');
 const {

@@ -3,6 +3,7 @@ const path = require('path');
 const { promisify } = require('util');
 const { prisma } = require('../config/db');
 const { hashPassword, comparePassword } = require('../utils/passcheck');
+const { generateAccessToken, generateRefreshToken } = require('../utils/jwt');
 
 async function registerUser(name, username, password) {
 
@@ -78,18 +79,19 @@ async function loginUser(username, password, req) {
     }
 
     const sessionID = req.sessionID;
-
+    const accessToken = generateAccessToken(user);
+    const refreshToken = generateRefreshToken(user);
     await prisma.user.update({
         where: { username },
         data: {
             failedCount: 0,
             blockedUntil: null,
             sessionId: req.sessionID,
-
+            refreshToken: refreshToken
         },
     });
 
-    return user;
+    return { ...user, accessToken };
 }
 
 async function getProfile(req, res) {
@@ -124,9 +126,10 @@ async function logout(req, res) {
     if (userId) {
         await prisma.user.update({
             where: { id: userId },
-            data: { sessionId: null },
+            data: { sessionId: null, refreshToken: null },
         });
     }
+    res.clearCookie('refreshToken');
     req.session.destroy((err) => {
         if (err) {
             return res.status(500).json({ error: 'Logout failed' });

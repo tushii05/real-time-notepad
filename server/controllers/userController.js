@@ -25,7 +25,8 @@ const login = async (req, res) => {
     try {
         const user = await loginUser(username, password, req);
         req.session.userId = user.id;
-        res.json({ message: 'Login successful' });
+        const accessToken = user.accessToken
+        res.json({ message: 'Login successful', accessToken });
     } catch (err) {
         res.status(400).json({ error: 'Login failed', details: err.message });
     }
