@@ -20,8 +20,12 @@ async function noteGet(req, res) {
         const page = parseInt(req.query.page) || 1;
         const pageSize = parseInt(req.query.pageSize) || 10;
         const order = req.query.order === 'asc' ? 'asc' : 'desc';
+        const userId = req.session.userId;
 
-        const contents = await getNotes(page, pageSize, order);
+        if (!userId) {
+            return res.status(401).json({ error: 'Unauthorized: User not logged in' });
+        }
+        const contents = await getNotes(userId, page, pageSize, order);
         res.status(200).json(contents);
     } catch (error) {
         res.status(500).json({ error: error.message });

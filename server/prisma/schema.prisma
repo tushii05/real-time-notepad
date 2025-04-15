@@ -13,7 +13,7 @@ model User {
   username  String   @unique
   password  String
   refreshToken String?
-   sessionId    String? 
+  sessionId    String? 
   failedCount  Int      @default(0)
   lastAttempt  DateTime?
   blockedUntil DateTime?
