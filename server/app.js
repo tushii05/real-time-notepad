@@ -28,6 +28,11 @@ app.use(sessionMiddleware);
 // app.use(loggerMiddleware);
 app.use(csrfMiddleware);
 
+
+app.use('/hello', (req, res) => {
+    return res.json({ message: "Hello" })
+})
+
 app.use('/api/users', userRoutes);
 app.use('/api', noteRoutes);
 app.use('/api', csrfRoutes);
