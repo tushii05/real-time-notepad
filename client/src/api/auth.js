@@ -83,14 +83,14 @@ export const logOut = async () => {
     }
 };
 
-export const uploadAvatar = async (formData, csrfToken) => {
-    console.log(formData,"```````````````````````````")
+export const uploadAvatar = async (formData, csrfToken, onUploadProgress) => {
     try {
         const response = await api.put('/users/avatar', formData, {
             headers: {
                 'X-CSRF-TOKEN': csrfToken,
                 'Content-Type': 'multipart/form-data'
             },
+            onUploadProgress
         });
         return response.data;
     } catch (error) {
